@@ -1,6 +1,11 @@
 import Header from "../components/Header";
-import { useParams } from "react-router-dom";
+import Footer from "../components/Footer";
+import { Form, useParams } from "react-router-dom";
 import useFetch from "../../useFetch";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const ProductDetails = () => {
 
@@ -20,7 +25,7 @@ const ProductDetails = () => {
         }
       );
 
-      alert("book Added to wishlist")
+      toast.success("book Added to wishlist");
 
       if(!response.ok){
         throw "failed to update movie."
@@ -39,7 +44,7 @@ const ProductDetails = () => {
         { method:"POST" }
         );
 
-        alert("Book added to cart")
+        toast.success("Book Added to Cart Successfully")
 
         if(!response.ok){
           throw "failed to update Book."
@@ -58,13 +63,18 @@ const ProductDetails = () => {
     return(
         <>
           <Header/>
-          { loading ? <div className="container"><h1>Loading.....̼͙̈́͆̈́ͯ̒̆̀̓ͧ͠𒀱</h1></div> : 
+
+          <div>
+              <ToastContainer position="top-right" autoClose={ 3000 }/>
+          </div>
+          
+          { loading ? <div className="container py-4"><h1>Loading...</h1></div> : 
 
           <main className="container" style={ { background: "#F0F0F0" } }>
             
             <div className="row">
-                <div className="col-md-4 py-4 ps-5">
-                    <img src={ data?.imageUrl } alt="book" className="img-fluid"/>
+                <div className="col-md-4 p-4">
+                    <img src={ data?.imageUrl } alt="book" className="img-fluid" style={ { height:"260px", width:"450px" } }/>
                     <p className="btn btn-primary rounded-0 w-100 mt-4" onClick={ () => handleIncrement( data?._id ) }>Add to Cart</p>
                     <p className="btn btn-secondary rounded-0 w-100" onClick={ () => handleWishlist( data?._id ) }>Add to Wishlist</p>
                 </div>
@@ -83,7 +93,14 @@ const ProductDetails = () => {
                 </div>
             </div>
 
-          </main>}
+          </main>
+
+          }
+
+          <br />
+
+
+          <Footer/>
         </>
     )
 }

@@ -1,5 +1,9 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import useFetch from "../../useFetch";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Wishlist = () => {
 
@@ -23,8 +27,9 @@ const Wishlist = () => {
       const data = await response.json();
       console.log("Updated Book", data);
 
+      
       window.location.reload();
-      alert("Book removed from wishlist");
+      toast.success("Book removed from wishlist");
     }
     catch(error){
       console.log("Error updating data", error);
@@ -37,7 +42,7 @@ const Wishlist = () => {
         { method:"POST" }
         );
 
-        alert("Book added to Cart")
+        toast.success("Book added to Cart");
 
         if(!response.ok){
           throw "failed to update Book."
@@ -56,9 +61,15 @@ const Wishlist = () => {
     return(
         <>
           <Header/>
+
+          <div>
+               <ToastContainer position="top-right" autoClose={ 3000 }/>
+          </div>
+
+
           <main className="container">
 
-            { loading ? <div className="container p-4"><h1>Loading.....̼͙̈́͆̈́ͯ̒̆̀̓ͧ͠𒀱</h1></div> :
+            { loading ? <div className="py-4"><h1>Loading...</h1></div> :
 
             <div>
             <div>
@@ -71,7 +82,7 @@ const Wishlist = () => {
                         <div className="col-md-3 pb-4" key={ book?._id }>
                             <div className="card">
                                 <a href={ `/productDetails/${ book._id }` }>
-                                    <img src={ book?.imageUrl } alt="book image" className="img-fluid"/>
+                                    <img src={ book?.imageUrl } alt="book image" className="img-fluid" style={ { height:"250px", width:"460px" } }/>
                                 </a>
                                 <div className="card-body">
                                     <div className="d-flex flex-column align-items-center">
@@ -87,8 +98,12 @@ const Wishlist = () => {
                     ))
                 }
             </div>
-            </div>}
+            </div>
+
+            }
+
           </main>
+          <Footer/>
         </>
     )
 }
